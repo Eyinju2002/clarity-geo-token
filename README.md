@@ -7,10 +7,12 @@ A decentralized platform for real-time location sharing using blockchain technol
 - Store location coordinates securely on-chain
 - Query location history
 - Authorization controls for location sharing
+- Prevention of duplicate token IDs
 
 ## Usage
 The GeoToken contract allows users to:
-1. Mint new tokens with location data
+1. Create and manage tokens
+- mint-token: Mint a new token with unique ID
 - record-location: Store location coordinates
 - update-location: Update existing location data
 2. Share location access
@@ -19,3 +21,8 @@ The GeoToken contract allows users to:
 3. Query location data
 - get-location: Get latest location for a token
 - get-location-history: Get historical locations
+
+## Recent Updates
+- Added explicit token minting functionality
+- Added prevention of duplicate token IDs
+- Updated testing suite to verify token minting
