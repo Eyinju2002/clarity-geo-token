@@ -8,11 +8,36 @@ import {
 import { assertEquals } from 'https://deno.land/std@0.90.0/testing/asserts.ts';
 
 Clarinet.test({
+  name: "Test token minting",
+  async fn(chain: Chain, accounts: Map<string, Account>) {
+    const wallet_1 = accounts.get("wallet_1")!;
+    
+    let block = chain.mineBlock([
+      Tx.contractCall(
+        "geo-token",
+        "mint-token", 
+        [types.uint(1)],
+        wallet_1.address
+      )
+    ]);
+    
+    assertEquals(block.receipts.length, 1);
+    block.receipts[0].result.expectOk().expectBool(true);
+  }
+});
+
+Clarinet.test({
   name: "Test location recording",
   async fn(chain: Chain, accounts: Map<string, Account>) {
     const wallet_1 = accounts.get("wallet_1")!;
     
     let block = chain.mineBlock([
+      Tx.contractCall(
+        "geo-token",
+        "mint-token",
+        [types.uint(1)],
+        wallet_1.address
+      ),
       Tx.contractCall(
         "geo-token",
         "record-location",
@@ -21,10 +46,10 @@ Clarinet.test({
       )
     ]);
     
-    assertEquals(block.receipts.length, 1);
+    assertEquals(block.receipts.length, 2);
     assertEquals(block.height, 2);
     
-    block.receipts[0].result.expectOk().expectBool(true);
+    block.receipts[1].result.expectOk().expectBool(true);
   }
 });
 
