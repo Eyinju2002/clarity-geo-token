@@ -6,6 +6,7 @@
 (define-constant err-owner-only (err u100))
 (define-constant err-unauthorized (err u101))
 (define-constant err-invalid-location (err u102))
+(define-constant err-token-exists (err u103))
 
 ;; Data structures
 (define-map locations
@@ -21,6 +22,14 @@
 (define-map access-control
   { user: principal, viewer: principal }
   { can-view: bool }
+)
+
+;; Token minting
+(define-public (mint-token (token-id uint))
+  (begin
+    (asserts! (is-none (get-location token-id)) err-token-exists)
+    (ft-mint? geo-token u1 tx-sender)
+  )
 )
 
 ;; Location recording
